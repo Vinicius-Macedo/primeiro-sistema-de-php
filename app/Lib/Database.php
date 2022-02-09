@@ -27,7 +27,7 @@ class Database
     }
   }
 
-  public function query($sql)
+  public function prepare($sql)
   {
     $this->stmt = $this->dbh->prepare($sql);
   }

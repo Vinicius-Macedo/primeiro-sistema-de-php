@@ -13,7 +13,7 @@ const camposSenha = document.querySelectorAll('input.password');
 
 // form.addEventListener('submit', (e) => {
 //   e.preventDefault();
-//   checarFormulario();
+//   checarFormulario(); // Irá checar
 
 // });
 
@@ -137,6 +137,8 @@ function apagarErro(input) {
 // TESTE CPF
 
 function checarCPF(strCPF) {
+
+  str_replace()
   strCPF = strCPF.replace(/\.|-/g, '');
   var Soma;
   var Resto;

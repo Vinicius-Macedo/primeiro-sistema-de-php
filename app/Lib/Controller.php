@@ -2,10 +2,10 @@
 
 class Controller
 {
-
-  public function model()
+  
+  public function model($model)
   {
-    require_once MODELS_FOLDER . $models . '.php';
+    require_once MODELS_FOLDER . $model . '.php';
     return new $model;
   }
 
@@ -18,7 +18,7 @@ class Controller
       die('O arquivo de view não existe!');
     endif;
   }
-
+  
   public function notfound()
   {
     $this->view('Templates/header', ['titulo' => 'Página não encontrada']);
