@@ -26,6 +26,12 @@ class CheckForm
     return true;
   }
 
+  public static function cpfSql($cpf)
+  {
+    $cpf = str_replace(['.', '-'], '', $cpf);
+    return $cpf;
+  }
+
   public static function date($date)
   {
     if (strlen($date) != 10) :
@@ -96,9 +102,10 @@ class CheckForm
     // endif;
   }
 
-  public static function passwordHash($password)
+  public static function passwordSql($password)
   {
     $password = password_hash($password, PASSWORD_DEFAULT);
+    return $password;
   }
 
   public static function passwordConfirm($password, $passwordConfirm)

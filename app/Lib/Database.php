@@ -8,7 +8,6 @@ class Database
   private $password = 'password';
   private $dbname = 'db_php_projeto';
   private $port = '3306';
-  private $public;
   private $stmt;
 
   public function __construct()

@@ -6,7 +6,7 @@ class Cadastro extends Controller
 
   public function __construct()
   {
-    // $this->cadastroModel = $this->model('CadastroModel');
+    $this->cadastroModel = $this->model('CadastroModel');
   }
 
   public function index()
@@ -27,12 +27,14 @@ class Cadastro extends Controller
         'passwordConfirm' => $form['passwordConfirm'],
       ];
 
-      // VALIDA OS INPUTS, CASO ELES PASS
+      // VALIDA OS INPUTS, CASO ELES PASSEM NO TESTE
       if (!CheckForm::cpf($infos['cpf'])) :
         $infos['cpf_error'] = 'Insira um CPF válido';
         $formFields[0] = false;
+        $infos['cpf_sql'] = '';
       else :
         $infos['cpf_error'] = '';
+        $infos['cpf_sql'] = CheckForm::cpfSql($infos['cpf']);
         $formFields[0] = true;
       endif;
 
@@ -64,11 +66,11 @@ class Cadastro extends Controller
 
       if (!CheckForm::password($infos['password'])) :
         $infos['password_error'] = 'A senha deve ter no mínimo 8 digitos com letras e números.';
-        $infos['password_hash'] = '';
+        $infos['password_sql'] = '';
         $formFields[4] = false;
       else :
         $infos['password_error'] = '';
-        $infos['password_hash'] = CheckForm::passwordHash($infos['password']);
+        $infos['password_sql'] = CheckForm::passwordSql($infos['password']);
         $formFields[4] = true;
       endif;
 
@@ -99,13 +101,12 @@ class Cadastro extends Controller
       ];
     endif;
 
-    var_dump($infos['date_sql']);
 
 
-    // // CHECA SE TOODOS OS CAMPOS DO ARRAY SÃO TRUE
-    // if (count(array_unique($formFields)) === 1) :
-    //   $this->cadastroModel->store($infos);
-    // endif;
+    // CHECA SE TOODOS OS CAMPOS DO ARRAY SÃO TRUE E ARMAZENA NO BANCO DE DAODS
+    if (count(array_unique($formFields)) === 1) :
+      $this->cadastroModel->store($infos);
+    endif;
 
     $this->view('Templates/headOnly');
     $this->view('Pages/cadastro', $infos);
