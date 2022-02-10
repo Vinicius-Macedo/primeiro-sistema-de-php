@@ -12,10 +12,8 @@ class CadastroModel
   public function store($infos)
   {
 
-    $this->db->query("INSERT INTO  usuarios (email,nome,senha) VALUES (:email, :nome, :senha)");
-    $this->db->bind('email', $infos['email']);
-    $this->db->bind('nome', $infos['name']);
-    $this->db->bind('password', $infos['password;']);
+    $this->db->prepare("INSERT INTO  usuarios (cpf, nascimento, email, nome, senha) VALUES (:cpf, :nascimento, :email, :nome, :senha)");
+    $this->db->bindValue(':email', $infos['email']);
 
     $this->db->execute();
   }

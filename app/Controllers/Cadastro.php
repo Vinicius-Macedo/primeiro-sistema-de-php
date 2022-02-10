@@ -6,12 +6,12 @@ class Cadastro extends Controller
 
   public function __construct()
   {
-    $this->cadastroModel = $this->model('CadastroModel');
+    // $this->cadastroModel = $this->model('CadastroModel');
   }
 
   public function index()
   {
-    
+
     // TODOS OS INDEXES => TRUE PARA SER ENVIADO AO BANCO DE DADOS
     $formFields = [];
 
@@ -39,16 +39,16 @@ class Cadastro extends Controller
       if (!CheckForm::date($infos['date'])) :
         $infos['date_error'] = 'Insira uma data válida';
         $formFields[1] = false;
-
+        $infos['date_sql'] = '';
       else :
         $infos['date_error'] = '';
         $formFields[1] = true;
+        $infos['date_sql'] = CheckForm::dateSql($form['date']);
       endif;
 
       if (!CheckForm::name($infos['name'])) :
         $infos['name_error'] = 'Insira um nome válido';
         $formFields[2] = false;
-
       else :
         $infos['name_error'] = '';
         $formFields[2] = true;
@@ -57,7 +57,6 @@ class Cadastro extends Controller
       if (!CheckForm::email($infos['email'])) :
         $infos['email_error'] = 'Insira um email válido';
         $formFields[3] = false;
-
       else :
         $infos['email_error'] = '';
         $formFields[3] = true;
@@ -65,10 +64,11 @@ class Cadastro extends Controller
 
       if (!CheckForm::password($infos['password'])) :
         $infos['password_error'] = 'A senha deve ter no mínimo 8 digitos com letras e números.';
+        $infos['password_hash'] = '';
         $formFields[4] = false;
-
       else :
         $infos['password_error'] = '';
+        $infos['password_hash'] = CheckForm::passwordHash($infos['password']);
         $formFields[4] = true;
       endif;
 
@@ -80,11 +80,12 @@ class Cadastro extends Controller
         $formFields[5] = true;
       endif;
 
-      
+
     else :
       $infos = [
         'cpf' => '',
         'date' => '',
+        'date_sql' => '',
         'name' => '',
         'email' => '',
         'password' => '',
@@ -98,17 +99,16 @@ class Cadastro extends Controller
       ];
     endif;
 
-    // CHECA SE TOODOS OS CAMPOS DO ARRAY SÃO TRUE
-    if(count(array_unique($formFields)) === 1):
-      if ($this->cadastroModel->store($infos)):
-      else:
-        die("Erro ao armazenar usuario no banco de dados");
-      endif;
-    endif;
+    var_dump($infos['date_sql']);
+
+
+    // // CHECA SE TOODOS OS CAMPOS DO ARRAY SÃO TRUE
+    // if (count(array_unique($formFields)) === 1) :
+    //   $this->cadastroModel->store($infos);
+    // endif;
 
     $this->view('Templates/headOnly');
     $this->view('Pages/cadastro', $infos);
     $this->view('Templates/footerScriptForm');
   }
 }
-

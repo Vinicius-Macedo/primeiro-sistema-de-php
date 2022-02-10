@@ -47,7 +47,7 @@ class Rotas
   {
     if (file_exists(CONTROLLERS_FOLDER . ucwords($url[0]) . '.php')) :
       $this->controller = ucwords($url[0]);
-      // ELIMA O VALOR [0] PARA NÃO SER INSERIDO EM PARAMETERS MAIS A FRENTE NO __CONSTRUCT
+      // ELIMINA O VALOR [0] PARA NÃO SER INSERIDO EM PARAMETERS MAIS A FRENTE NO __CONSTRUCT
       unset($url[0]);
     elseif ($url == [0]) :
       $this->controller = 'Home';
@@ -63,7 +63,7 @@ class Rotas
     if (isset($url[1])) :
       if (method_exists($this->controller, $url[1])) :
         $this->render = $url[1];
-        // ELIMA O VALOR [0] PARA NÃO SER INSERIDO EM PARAMETERS MAIS A FRENTE NO __CONSTRUCT
+        // ELIMINA O VALOR [0] PARA NÃO SER INSERIDO EM PARAMETERS MAIS A FRENTE NO __CONSTRUCT
         unset($url[1]);
       else :
         $this->render = 'notfound';

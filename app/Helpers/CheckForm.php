@@ -28,11 +28,12 @@ class CheckForm
 
   public static function date($date)
   {
-    if (strlen($date) != 10):
+    if (strlen($date) != 10) :
       return false;
     endif;
 
     $date = array_map('intval', explode('/', $date));
+    $infos['date_sql'] = $date[2] . '-' . $date[1] . '-' . $date[0];
     $currentDate = date("m/d/Y");
     $currentDate = strtotime($currentDate);
     $OldestDate = strtotime('01/01/1902');
@@ -49,6 +50,13 @@ class CheckForm
     else :
       return false;
     endif;
+  }
+
+  public static function dateSql($date)
+  {
+    $date = array_map('intval', explode('/', $date));
+    $date = $date[2] . '-' . $date[1] . '-' . $date[0];
+    return $date;
   }
 
   public static function name($name)
@@ -88,6 +96,11 @@ class CheckForm
     // endif;
   }
 
+  public static function passwordHash($password)
+  {
+    $password = password_hash($password, PASSWORD_DEFAULT);
+  }
+
   public static function passwordConfirm($password, $passwordConfirm)
   {
     if ($password == $passwordConfirm) :
@@ -96,6 +109,4 @@ class CheckForm
       return false;
     endif;
   }
-
-
 }
